@@ -61,7 +61,7 @@ else:
         
 # open file (you can use 'edmFileUtil -d /store/whatever.root' to get the physical file name)
 if output == "PF_HF_SinglePi_Pt20":
-    events = Events('../29088.0_SinglePiPt25Eta1p7_2p7+SinglePiPt25Eta1p7_2p7_2023D41_GenSimHLBeamSpotFull+DigiFullTrigger_2023D41+RecoFullGlobal_2023D41+HARVESTFullGlobal_2023D41/step3.root')
+    events = Events('../../../29088.0_SinglePiPt25Eta1p7_2p7+SinglePiPt25Eta1p7_2p7_2023D41_GenSimHLBeamSpotFull+DigiFullTrigger_2023D41+RecoFullGlobal_2023D41+HARVESTFullGlobal_2023D41/step3.root')
 # elif output == "NH_CaloEnergy_SingleMuon_2016C":
 #     events = Events('root://cmsxrootd.fnal.gov//store/data/Run2016C/SingleMuon/AOD/07Aug17-v1/110001/44B1F7D7-3F80-E711-AE45-001E67E6F4A9.root')
 # elif output == "NH_CaloEnergy_SingleMuon_2017C":
