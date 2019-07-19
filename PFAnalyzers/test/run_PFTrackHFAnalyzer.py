@@ -28,7 +28,6 @@ options.maxEvents = -1 # -1 means all events
 ## get and parse the command line arguments
 ##
 options.parseArguments()
-print("maxEvents: ", options.maxEvents)
 
 #
 # Dataset e.g.
@@ -83,14 +82,47 @@ process.load('Configuration.StandardSequences.Validation_cff')
 process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+#process.MessageLogger = cms.Service("MessageLogger",
+#                                    destinations       =  cms.untracked.vstring('debug'),
+#                                    debugModules  = cms.untracked.vstring('pfTrackHFAnalyzer'),
+#                                    debug         = cms.untracked.PSet(
+#                                        threshold =  cms.untracked.string('DEBUG')
+#                                    )
+#)
 
 #------------------------------------------------------------------------------------
 # Set up our analyzer
 #------------------------------------------------------------------------------------
 
 #process.load("PFAnalysis.PFAnalyzers.PFTrackHFAnalyzer_cfi")
-process.pfTrackHFAnalyzer = cms.EDAnalyzer("PFTrackHFAnalyzer")
+process.pfTrackHFAnalyzer = cms.EDAnalyzer("PFTrackHFAnalyzer",
+                                           source_genpars = cms.untracked.InputTag('genParticles', ''),
+                                           source_calopars = cms.untracked.InputTag('mix', 'MergedCaloTruth'),
+                                           source_vertices = cms.untracked.InputTag('offlinePrimaryVertices', ''),
+                                           source_pfcands = cms.untracked.InputTag('particleFlow', ''),
+                                           source_pfclustersHF = cms.untracked.InputTag('particleFlowClusterHF', ''),
+                                           source_pfrechitsHF = cms.untracked.InputTag('particleFlowRecHitHF', ''),
+                                           source_pftracks = cms.untracked.InputTag('pfTrack', ''),
+                                           source_tracks = cms.untracked.InputTag('generalTracks', ''),
+                                           debug = cms.untracked.bool(True)
+)
+
+#process.MessageLogger.suppressInfo = cms.untracked.vstring('*')
+#process.MessageLogger.debugModules = cms.untracked.vstring(["pfTrackHFAnalyzer"])
+#process.MessageLogger.debugs = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG'))
+# process.MessageLogger = cms.Service(
+#     "MessageLogger",
+#     destinations = cms.untracked.vstring(
+#         'detailedInfo',
+#         'critical'
+#     ),
+#     detailedInfo = cms.untracked.PSet(
+#         threshold  = cms.untracked.string('DEBUG') 
+#     ),
+#     debugModules = cms.untracked.vstring('*')
+# )
+process.MessageLogger.debugModules = cms.untracked.vstring("PFTrackHFAnalyzer","pfTrackHFAnalyzer")
+process.MessageLogger.cerr.threshold = 'DEBUG'
 
 #------------------------------------------------------------------------------------
 # Specify Global Tag
