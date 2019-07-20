@@ -82,13 +82,7 @@ process.load('Configuration.StandardSequences.Validation_cff')
 process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-#process.MessageLogger = cms.Service("MessageLogger",
-#                                    destinations       =  cms.untracked.vstring('debug'),
-#                                    debugModules  = cms.untracked.vstring('pfTrackHFAnalyzer'),
-#                                    debug         = cms.untracked.PSet(
-#                                        threshold =  cms.untracked.string('DEBUG')
-#                                    )
-#)
+process.MessageLogger.cerr.FwkReport.reportEvery = 1
 
 #------------------------------------------------------------------------------------
 # Set up our analyzer
@@ -106,23 +100,6 @@ process.pfTrackHFAnalyzer = cms.EDAnalyzer("PFTrackHFAnalyzer",
                                            source_tracks = cms.untracked.InputTag('generalTracks', ''),
                                            debug = cms.untracked.bool(True)
 )
-
-#process.MessageLogger.suppressInfo = cms.untracked.vstring('*')
-#process.MessageLogger.debugModules = cms.untracked.vstring(["pfTrackHFAnalyzer"])
-#process.MessageLogger.debugs = cms.untracked.PSet(threshold = cms.untracked.string('DEBUG'))
-# process.MessageLogger = cms.Service(
-#     "MessageLogger",
-#     destinations = cms.untracked.vstring(
-#         'detailedInfo',
-#         'critical'
-#     ),
-#     detailedInfo = cms.untracked.PSet(
-#         threshold  = cms.untracked.string('DEBUG') 
-#     ),
-#     debugModules = cms.untracked.vstring('*')
-# )
-process.MessageLogger.debugModules = cms.untracked.vstring("PFTrackHFAnalyzer","pfTrackHFAnalyzer")
-process.MessageLogger.cerr.threshold = 'DEBUG'
 
 #------------------------------------------------------------------------------------
 # Specify Global Tag

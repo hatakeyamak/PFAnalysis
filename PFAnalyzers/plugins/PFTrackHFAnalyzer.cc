@@ -155,32 +155,32 @@ PFTrackHFAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
    //------------------------------ ------------------------------ ------------------------------
    if (debug_) {
    
-     std::cout << "genpars: "      << genpars->size() << std::endl;
-     std::cout << "calopars: "     << calopars->size() << std::endl;
-     std::cout << "vertices: "     << vertices->size() << std::endl;
-     std::cout << "pfcands: "      << pfcands->size() << std::endl;
-     std::cout << "pfclustersHF: " << pfclustersHF->size() << std::endl;
-     std::cout << "pfrechitsHF: "  << pfrechitsHF->size() << std::endl;
-     std::cout << "pftracks: "     << pftracks->size() << std::endl;
+     LogPrint("PFTrackHFAnalyzer") << "genpars: "      << genpars->size();
+     LogPrint("PFTrackHFAnalyzer") << "calopars: "     << calopars->size();
+     LogPrint("PFTrackHFAnalyzer") << "vertices: "     << vertices->size();
+     LogPrint("PFTrackHFAnalyzer") << "pfcands: "      << pfcands->size();
+     LogPrint("PFTrackHFAnalyzer") << "pfclustersHF: " << pfclustersHF->size();
+     LogPrint("PFTrackHFAnalyzer") << "pfrechitsHF: "  << pfrechitsHF->size();
+     LogPrint("PFTrackHFAnalyzer") << "pftracks: "     << pftracks->size();
 
-     std::cout << "genpar: " << std::endl;
+     LogPrint("PFTrackHFAnalyzer") << "genpar: ";
      for(const auto& genpar : *(genpars.product()) )
-       std::cout << boost::format("genpar (pt,eta,phi): (%6.1f, %6.2f, %6.2f)\n") % genpar.pt() % genpar.eta() % genpar.phi();
-     
-     std::cout << "calopar: " << std::endl;
+       LogPrint("PFTrackHFAnalyzer") << boost::format("genpar (pt,eta,phi): (%6.1f, %6.2f, %6.2f)") % genpar.pt() % genpar.eta() % genpar.phi();
+    
+     LogPrint("PFTrackHFAnalyzer") << "calopar: ";
      for(const auto& calopar : *(calopars.product()) )
-       std::cout << boost::format("calopar (pt,eta,phi): (%6.1f, %6.2f, %6.2f)\n") % calopar.pt() % calopar.eta() % calopar.phi();
+       LogPrint("PFTrackHFAnalyzer") << boost::format("calopar (pt,eta,phi): (%6.1f, %6.2f, %6.2f)") % calopar.pt() % calopar.eta() % calopar.phi();
      
-     std::cout << "pfcand: " << std::endl;
+     LogPrint("PFTrackHFAnalyzer") << "pfcand: ";
      for(const auto& pfcand : *(pfcands.product()) ){
        if (pfcand.pt()>1.)
-	 std::cout << boost::format("pfcand (pt,eta,phi): (%6.1f, %6.2f, %6.2f)\n") % pfcand.pt() % pfcand.eta() % pfcand.phi();
+	 LogPrint("PFTrackHFAnalyzer") << boost::format("pfcand (pt,eta,phi): (%6.1f, %6.2f, %6.2f)") % pfcand.pt() % pfcand.eta() % pfcand.phi();
      }
    
-     std::cout << "pfclusterHF: " << std::endl;
+     LogPrint("PFTrackHFAnalyzer") << "pfclusterHF: ";
      for(const auto& pfclus : *(pfclustersHF.product()) ){
        if (pfclus.pt()>1.) {
-	 std::cout << boost::format("pfclus (pt,eta,phi,E): (%6.1f, %6.2f, %6.2f, %6.1f)\n")
+	 LogPrint("PFTrackHFAnalyzer") << boost::format("pfclus (pt,eta,phi,E): (%6.1f, %6.2f, %6.2f, %6.1f)")
 	   % pfclus.pt() % pfclus.eta() % pfclus.phi() % pfclus.energy();
 	 const std::vector<reco::PFRecHitFraction> &fracs = pfclus.recHitFractions();
 	 const std::vector<std::pair<DetId, float>> &hfracs = pfclus.hitsAndFractions();
@@ -188,13 +188,13 @@ PFTrackHFAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
 	   const auto& id = hfracs[i].first.rawId();
 	   const reco::PFRecHitRef& pfRecHits = fracs[i].recHitRef();
 	   double rawenergy = pfRecHits->energy();
-	   std::cout << boost::format(" rechit (ieta,iphi,depth,frac,E): (%3d, %3d, %2d, %6.1f, %6.1f)\n")
+	   LogPrint("PFTrackHFAnalyzer") << boost::format(" rechit (ieta,iphi,depth,frac,E): (%3d, %3d, %2d, %6.1f, %6.1f)")
 	     % HcalDetId(id).ieta() % HcalDetId(id).iphi() % HcalDetId(id).depth() % hfracs[i].second % rawenergy;
 	 }
        }
      }
      
-     std::cout << "pftrack: " << std::endl;
+     LogPrint("PFTrackHFAnalyzer") << "pftrack: ";
      for(const auto& pftrack : *(pftracks.product()) ){
 
        const reco::TrackRef trackref = pftrack.trackRef();
@@ -209,7 +209,7 @@ PFTrackHFAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSet
        const double tracketa = tkAtHF.positionREP().Eta();
        const double trackphi = tkAtHF.positionREP().Phi();
 
-       std::cout << boost::format("pftrack (pt,eta,phi)@origin (eta,phi)@HF: (%6.1f +- %4.1f, %6.2f, %6.2f) (%6.2f, %6.2f)\n")
+       LogPrint("PFTrackHFAnalyzer") << boost::format("pftrack (pt,eta,phi)@origin (eta,phi)@HF: (%6.1f +- %4.1f, %6.2f, %6.2f) (%6.2f, %6.2f)")
 	 % trackref->pt() % trackref->ptError() % trackref->eta() % trackref->phi() % tracketa % trackphi;
 
      }
