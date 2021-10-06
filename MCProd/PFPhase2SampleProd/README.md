@@ -5,7 +5,7 @@ Check
 - CMSSW release
 - cmsDriver settings
 - output locations
-- # of events
+- number of events
 in shell script and jdl file (e.g. singlePion.sh & submitSinglePion_noPU_12_1.jdl)
 
 Make sure the output directory is prepared.
