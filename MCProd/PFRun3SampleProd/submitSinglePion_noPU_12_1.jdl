@@ -1,0 +1,29 @@
+universe = grid
+grid_resource = batch pbs
+#grid_resource = condor kodiak-ce.baylor.edu kodiak-ce.baylor.edu:9619
+
+#Universe             = vanilla
+Executable           = singlePion.sh
+GetEnv               = false
+
+#ShouldTransferFiles  = no
+request_memory       = 16000
+request_disk         = 2048000
+request_cpus         = 8
+#use_x509userproxy = True
+#+JobFlavour = "tomorrow"
+
+# File transfer behavior
+#ShouldTransferFiles = YES
+#WhenToTransferOutput = ON_EXIT
+transfer_input_files  = x509up
+
+#x509userproxy = $ENV(X509_USER_PROXY)
+use_x509userproxy = true
+
+Arguments = $(Process) $(Cluster) 1000 /store/user/$ENV(USER)/PF/CMSSW_12_1_0_pre3_HF/Run3_2021
+output = logs_singlePion/job$(Cluster)_$(Process).out
+error = logs_singlePion/job$(Cluster)_$(Process).err
+Log = logs_singlePion/job$(Cluster)_$(Process).log
+
+Queue 10
