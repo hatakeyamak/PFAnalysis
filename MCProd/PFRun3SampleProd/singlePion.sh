@@ -57,6 +57,12 @@ cmsDriver.py step_reco -s RAW2DIGI,L1Reco,RECO,RECOSIM,EI,PAT \
 voms-proxy-info
 
 #xrdcp $recofile root://eoscms.cern.ch/${basepath}/$recofile
-eval `scram unsetenv -sh`; gfal-copy $recofile gsiftp://kodiak-se.baylor.edu//cms/data/${basepath}/$recofile
+export prefix=/cms/data
+if [[ -d ${prefix}/${basepath} ]]
+then
+    cp $recofile /cms/data/${basepath}/$recofile
+else
+    eval `scram unsetenv -sh`; gfal-copy $recofile gsiftp://kodiak-se.baylor.edu//cms/data/${basepath}/$recofile
+fi
 
 rm *.root
