@@ -2,6 +2,7 @@
 echo "Starting the job"
 hostname
 export X509_USER_PROXY=$PWD/x509up
+voms-proxy-info
 export SCRAM_ARCH=slc7_amd64_gcc900
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 if [ -r CMSSW_12_1_0_pre3/src ] ; then
@@ -52,7 +53,15 @@ cmsDriver.py step_reco -s RAW2DIGI,L1Reco,RECO,RECOSIM,PAT \
     --nThreads 8 \
     --filein file:$digifile --fileout file:$recofile -n -1 $customizeReco
 
+voms-proxy-info
+
 #xrdcp $recofile root://eoscms.cern.ch/${basepath}/$recofile
-eval `scram unsetenv -sh`; gfal-copy $recofile gsiftp://kodiak-se.baylor.edu//cms/data/${basepath}/$recofile
+export prefix=/cms/data
+if [[ -d ${prefix}/${basepath} ]]
+then
+    cp $recofile ${prefix}/${basepath}/$recofile
+else
+    eval `scram unsetenv -sh`; gfal-copy $recofile gsiftp://kodiak-se.baylor.edu/${prefix}/${basepath}/$recofile
+fi
 
 rm *.root
