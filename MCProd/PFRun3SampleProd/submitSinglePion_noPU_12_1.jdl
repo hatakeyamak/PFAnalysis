@@ -6,12 +6,22 @@ grid_resource = batch pbs
 Executable           = singlePion.sh
 GetEnv               = false
 
-#ShouldTransferFiles  = no
-request_memory       = 16000
-request_disk         = 2048000
+# 32GB, 8cores, 4GB/core
+request_memory       = 32000
 request_cpus         = 8
+request_disk         = 2048000
 #use_x509userproxy = True
 #+JobFlavour = "tomorrow"
+
+# Resource requests
+# Request 8 cores
+#+xcount = 8
+# Request 32GB of RAM
+#+maxMemory = 32000
+# Request 2 hrs of wall clock time
+#+maxWallTime = 120
+# Request a specific remote queue
++remote_queue = "batch:8"
 
 # File transfer behavior
 #ShouldTransferFiles = YES
