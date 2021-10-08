@@ -62,21 +62,21 @@ for iev,event in enumerate(events):
     #     PV = vertices.product()[0]
     #     print "PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (PV.x(), PV.y(), PV.z(), PV.ndof())
 
-    print "== event: ",iev
+    print("== event: ",iev)
     
     # Gen particles
     for i,j in enumerate(genparticles.product()):  # loop over gen candidates
-        print "GenParticle: %3d: pt %5.1f eta %5.2f phi %5.2f pdgid %6d " % ( i, j.pt(), j.eta(), j.phi(), j.pdgId() )
+        print("GenParticle: %3d: pt %5.1f eta %5.2f phi %5.2f pdgid %6d " % ( i, j.pt(), j.eta(), j.phi(), j.pdgId() ))
         
     # Simtracks
     for i,j in enumerate(simtracks.product()):  # loop over gen candidates
         if j.genpartIndex() > 0.:
-            print "SimTrack:    %3d: pt %5.1f eta %5.2f phi %5.2f pdgid %6d genparIdx %4d" \
-                % ( i, j.momentum().pt(), j.momentum().eta(), j.momentum().phi(), j.type(), j.genpartIndex() )
-            print "  trackerSurface position R %5.2f Z %5.2f " \
-                % ( j.trackerSurfacePosition().R(), j.trackerSurfacePosition().Z() )
-            print "  trackerSurface momentum pt %5.1f eta %5.2f phi %5.2f " \
-                % ( j.trackerSurfaceMomentum().pt(), j.trackerSurfaceMomentum().eta(), j.trackerSurfaceMomentum().phi() )
+            print("SimTrack:    %3d: pt %5.1f eta %5.2f phi %5.2f pdgid %6d genparIdx %4d" \
+                % ( i, j.momentum().pt(), j.momentum().eta(), j.momentum().phi(), j.type(), j.genpartIndex() ))
+            print("  trackerSurface position R %5.2f Z %5.2f " \
+                % ( j.trackerSurfacePosition().R(), j.trackerSurfacePosition().Z() ))
+            print("  trackerSurface momentum pt %5.1f eta %5.2f phi %5.2f " \
+                % ( j.trackerSurfaceMomentum().pt(), j.trackerSurfaceMomentum().eta(), j.trackerSurfaceMomentum().phi() ))
 
     # Calo particles
     # for i,j in enumerate(caloparticles.product()):  # loop over calo candidates

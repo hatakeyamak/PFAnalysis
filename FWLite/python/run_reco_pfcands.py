@@ -56,22 +56,22 @@ for iev,event in enumerate(events):
     npf=0
     for i,j in enumerate(pfcands.product()):
         npf=npf+1
-        print "pfcands: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId())
-    print "npfcand: ",npf
+        print("pfcands: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId()))
+    print("npfcand: ",npf)
 
     # photons
     npf=0
     for i,j in enumerate(gedPhotons.product()):
         npf=npf+1
-        print "gedPhotons: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId())
-    print "nphoton: ",npf
+        print("gedPhotons: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId()))
+    print("nphoton: ",npf)
 
     # electrons
     npf=0
     for i,j in enumerate(gedGsfElectrons.product()):
         npf=npf+1
-        print "gedGsfElectrons: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId())
-    print "nelectron: ",npf
+        print("gedGsfElectrons: pt %17.13f eta %18.14f pdgId %5d " % ( j.pt(), j.eta(), j.pdgId()))
+    print("nelectron: ",npf)
 
     # taus
 

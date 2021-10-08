@@ -189,19 +189,19 @@ for iev,event in enumerate(events):
     #event.getByLabel(pfcandHcalDepthLabel,hcalDepthScore)
     #event.getByLabel(pfcandPtLabel,pfcandPtScore)
 
-    print "******************************************************************************** ievent: ",iev
+    print("******************************************************************************** ievent: ",iev)
 
     ncount=0
     for k,kticl in enumerate(ticlcands.product()):
         ncount = ncount+1
         #print "k,kticl",k,kticl
-    print ncount
+    print(ncount)
 
     ncount=0
     for k,kticl in enumerate(trackstersMerge.product()):
         ncount = ncount+1
         #print "k,kticl",k,kticl
-    print ncount
+    print(ncount)
 
     #
     # Loop pver gen particles
@@ -233,7 +233,7 @@ for iev,event in enumerate(events):
             jpf = pfcands.product()[jpfMindR]
             trkresp = 0.
             if jpf.gsfTrackRef().isNonnull():
-                print "gsftrack. skip."
+                print("gsftrack. skip.")
             else: 
                 jtrk = jpf.trackRef()
                 trkresp = jtrk.pt()/igen.pt()                

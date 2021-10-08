@@ -89,33 +89,33 @@ for iev,event in enumerate(events):
 
     # Vertices 
     H_NPV.Fill(len(vertices.product()))
-    print "len(vertices.product())", len(vertices.product()) 
+    print("len(vertices.product())", len(vertices.product()))
     if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
-        print "Event has no good primary vertex."
+        print("Event has no good primary vertex.")
         #continue
     else:
         PV = vertices.product()[0]
-        print "PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (PV.x(), PV.y(), PV.z(), PV.ndof())
+        print("PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (PV.x(), PV.y(), PV.z(), PV.ndof()))
 
     # Gen particles
     for i,j in enumerate(genparticles.product()):  # loop over gen candidates
-        print "GenParticle: iev %3d genpars %3d: pt %5.1f eta %5.2f phi %5.2f " % ( iev, i, j.pt(), j.eta(), j.phi() )
+        print("GenParticle: iev %3d genpars %3d: pt %5.1f eta %5.2f phi %5.2f " % ( iev, i, j.pt(), j.eta(), j.phi() ))
 
     # Calo particles
     for i,j in enumerate(caloparticles.product()):  # loop over calo candidates
-        print "CaloParticle: iev %3d calopars %3d: pt %5.1f eta %5.2f phi %5.2f depth=" % ( iev, i, j.pt(), j.eta(), j.phi() )
+        print("CaloParticle: iev %3d calopars %3d: pt %5.1f eta %5.2f phi %5.2f depth=" % ( iev, i, j.pt(), j.eta(), j.phi() ))
              
     # PF HF clusters    
     for i,j in enumerate(pfclusterhf.product()):  # loop over pf clusters
         pfc = j
         # layer 11:, 12:
-        print "HFCluster: iev %3d pfclus %3d: pt %5.1f eta %5.2f phi %5.2f layer %3d" % ( iev, i, pfc.pt(), pfc.eta(), pfc.phi(), pfc.layer() )
+        print("HFCluster: iev %3d pfclus %3d: pt %5.1f eta %5.2f phi %5.2f layer %3d" % ( iev, i, pfc.pt(), pfc.eta(), pfc.phi(), pfc.layer() ))
         fracs = pfc.recHitFractions()
         hfracs = pfc.hitsAndFractions()
         for e in range(0, fracs.size()):  # loop over rechits
             #print "  ", fracs[e], hfracs[e], hfracs[e].first, hfracs[e].second
             id = hfracs[e].first.rawId()
-            print "  ", id, pfc.recHitFractions()[e].recHitRef().detId()
+            print("  ", id, pfc.recHitFractions()[e].recHitRef().detId())
             #print HcalDetId(id).ieta(),HcalDetId(id).iphi(),HcalDetId(id).depth()
             # extracting ieta,iphi from detid: not working
 
@@ -123,11 +123,11 @@ for iev,event in enumerate(events):
     for i,j in enumerate(pfrechithf.product()):  # loop over pf rechits
         # print "PFRecHitHF: iev %3d pfrechits %3d: energy %5.1f pt %5.1f detid %15d eta %5.2f phi %5.2f layer %3d" % ( iev, i, j.energy(), math.sqrt(j.pt2()), j.detId(), j.positionREP().eta(), j.positionREP().eta(), j.layer() )
         # access to HcalDetId and its geometrical position: not working.
-        print "PFRecHitHF: iev %3d pfrechits %3d: energy %5.1f detid %15d layer %3d" % ( iev, i, j.energy(), j.detId(), j.layer() )        
+        print("PFRecHitHF: iev %3d pfrechits %3d: energy %5.1f detid %15d layer %3d" % ( iev, i, j.energy(), j.detId(), j.layer() ))
         
     # PF tracks
     for i,j in enumerate(pftracks.product()):  # loop over pf rechits
-        print "PFTrack: iev %3d pftrack %3d: pt %5.1f eta %5.2f phi %5.2f charge %3d" % ( iev, i, j.trackRef().pt(), j.trackRef().eta(), j.trackRef().phi(), j.charge() )
+        print("PFTrack: iev %3d pftrack %3d: pt %5.1f eta %5.2f phi %5.2f charge %3d" % ( iev, i, j.trackRef().pt(), j.trackRef().eta(), j.trackRef().phi(), j.charge() ))
         j.calculatePositionREP()
         #print j.extrapolatedPoint(9) # get information on extrapolated points: not working
         

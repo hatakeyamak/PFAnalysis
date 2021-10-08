@@ -53,7 +53,7 @@ pfcands, pfcandLabel = Handle("std::vector<reco::PFCandidate>"), "particleFlow"
 pfcandPtScore = Handle("edm::ValueMap<float>")
 verticesScore = Handle("edm::ValueMap<float>")
 
-print len(sys.argv)
+print(len(sys.argv))
 
 if len(sys.argv)>1:
     output=sys.argv[1]
@@ -95,7 +95,7 @@ elif output == "PFH_CaloEnergy_JetHT_2016H-10_6_0_MatrixTest":
 #  /store/relval/CMSSW_10_6_0/SingleMuon/RECO/106X_dataRun2_v10_RelVal_2016H-v1/10000/BC6B00A1-72AF-FF44-861E-87DD48C2F41C.root
 #
 
-print events
+print(events)
 
 debug = False
 
@@ -115,13 +115,13 @@ for iev,event in enumerate(events):
 
     # Vertices 
     H_NPV.Fill(len(vertices.product()))
-    print "len(vertices.product())", len(vertices.product()) 
+    print("len(vertices.product())", len(vertices.product()))
     if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
-        print "Event has no good primary vertex."
+        print("Event has no good primary vertex.")
         #continue
     else:
         PV = vertices.product()[0]
-        print "PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (PV.x(), PV.y(), PV.z(), PV.ndof())
+        print("PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (PV.x(), PV.y(), PV.z(), PV.ndof()))
 
     # PF candidates
     for i,j in enumerate(pfcands.product()):  # loop over pf candidates
@@ -135,11 +135,11 @@ for iev,event in enumerate(events):
 
         if ( debug ):
             if (abs(j.pdgId())==211):
-                print "PF: iev %3d pfcands %3d: pt %5.1f eta %5.2f pdgId %5d trackpt: %5.2f ecalE %5.2f (raw: %5.2f) hcalE %5.2f (raw: %5.2f) " % (
-                    iev, i, j.pt(), j.eta(), j.pdgId(), j.trackRef().pt(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() )
+                print("PF: iev %3d pfcands %3d: pt %5.1f eta %5.2f pdgId %5d trackpt: %5.2f ecalE %5.2f (raw: %5.2f) hcalE %5.2f (raw: %5.2f) " % (
+                    iev, i, j.pt(), j.eta(), j.pdgId(), j.trackRef().pt(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() ))
             else: 
-                print "PF: iev %3d pfcands %3d: pt %5.1f eta %5.2f pdgId %5d ecalE %5.2f (raw: %5.2f) hcalE %5.2f (raw: %5.2f) " % (
-                    iev, i, j.pt(), j.eta(), j.pdgId(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() )
+                print("PF: iev %3d pfcands %3d: pt %5.1f eta %5.2f pdgId %5d ecalE %5.2f (raw: %5.2f) hcalE %5.2f (raw: %5.2f) " % (
+                    iev, i, j.pt(), j.eta(), j.pdgId(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() ))
 
         ntrack=0
         nhcal=0
@@ -153,7 +153,7 @@ for iev,event in enumerate(events):
                     element = j.elementsInBlocks()[e].first.elements()[iEle]
                     if (element.type() == 1):  # track element (1, reco::PFBlockElement::TRACK)
                         track = element.trackRef()
-                        if (debug): print " element",e,element.type(),track.pt(),track.eta(),track.phi(),"track"
+                        if (debug): print(" element",e,element.type(),track.pt(),track.eta(),track.phi(),"track")
                         Tlv_trk_tmp.SetPtEtaPhiE(track.pt(),track.eta(),track.phi(),track.p())
                         Tlv_trk += Tlv_trk_tmp
                         ntrack += 1
@@ -162,28 +162,28 @@ for iev,event in enumerate(events):
                         #fracs = cluster.recHitFractions()
                         hfracs = cluster.hitsAndFractions()
                         nhcal += 1
-                        if (debug): print " element",e,element.type(),cluster.pt(),cluster.eta(),cluster.phi(),"hcal",len(hfracs)
+                        if (debug): print(" element",e,element.type(),cluster.pt(),cluster.eta(),cluster.phi(),"hcal",len(hfracs))
                         H_PFH_HcalClusterSize.Fill(len(hfracs))
                         H_PFH_HcalClusterSizeVsEnergy.Fill(cluster.energy(),len(hfracs))
                         Tlv_hcal.SetPtEtaPhiE(cluster.pt(),cluster.eta(),cluster.phi(),cluster.energy())
                         for k in range(0, hfracs.size()):  # loop over rechits
                             #print "  ", fracs[k], hfracs[k], hfracs[k].first, hfracs[k].second
                             id = hfracs[k].first.rawId()
-                            if (debug): print "  ", id, hfracs[k].second
+                            if (debug): print("  ", id, hfracs[k].second)
                             #print "  ", id, cluster.recHitFractions()[k].recHitRef().detId()
                             #print HcalDetId(id).ieta(),HcalDetId(id).iphi(),HcalDetId(id).depth()
                             # extracting ieta,iphi from detid: not working
                     elif (element.type() == 4 or element.type() == 11):  # calo element (4,11, reco::PFBlockElement::ECAL,HO)
                         cluster = element.clusterRef()
-                        if (debug): print " element",e,element.type(),cluster.pt(),"ecal or ho"
+                        if (debug): print(" element",e,element.type(),cluster.pt(),"ecal or ho")
                     else:
-                        if (debug): print " element",e,element.type()
+                        if (debug): print(" element",e,element.type())
         if (ntrack>0):
             H_PFH_withTrack.Fill(j.eta(),1.)
             H_PFH_withoutTrack.Fill(j.eta(),0.)
             if (nhcal>0):
                 if (Tlv_hcal.DeltaR(Tlv_trk)>0.4):
-                    if (debug): print "KH warning: dR>0.4"
+                    if (debug): print("KH warning: dR>0.4")
                     #    print " hcal:",Tlv_hcal.Print()
                     #    print " track:",Tlv_trk.Print()
                 H_PFH_HcalTrackdR.Fill(Tlv_hcal.DeltaR(Tlv_trk));            
@@ -217,8 +217,8 @@ for iev,event in enumerate(events):
         H_PFH_CorECAL_zoom.Fill(j.ecalEnergy())
         H_PFH_RawECAL_zoom.Fill(j.rawEcalEnergy())
         if (j.ecalEnergy()>=0.): continue 
-        print "\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event())
-        print "CH2: pfcands %3d: pt %5.1f eta %5.2f pdgId %5d ecalE %5.2f (rawEcalE %5.2f) hcalE %5.2f (rawHcalE %5.2f) " % ( i, j.pt(), j.eta(), j.pdgId(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() )
+        print("\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event()))
+        print("CH2: pfcands %3d: pt %5.1f eta %5.2f pdgId %5d ecalE %5.2f (rawEcalE %5.2f) hcalE %5.2f (rawHcalE %5.2f) " % ( i, j.pt(), j.eta(), j.pdgId(), j.ecalEnergy(), j.rawEcalEnergy(), j.hcalEnergy(), j.rawHcalEnergy() ))
 
 # Set up canvas : 
 w = 1400 

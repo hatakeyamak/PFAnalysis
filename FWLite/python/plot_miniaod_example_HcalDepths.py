@@ -36,7 +36,7 @@ verticesScore = Handle("edm::ValueMap<float>")
 events = Events('file:step3_MINIAOD.root')
 
 for iev,event in enumerate(events):
-    if iev >= 10: break 
+    if iev >= 10: break
     event.getByLabel(muonLabel, muons)
     event.getByLabel(electronLabel, electrons)
     event.getByLabel(photonLabel, photons)
@@ -49,19 +49,19 @@ for iev,event in enumerate(events):
     event.getByLabel(pfcandLabel,pfcands)
     event.getByLabel(pfcandHcalDepthLabel,hcalDepthScore)
     #event.getByLabel(pfcandPtLabel,pfcandPtScore)
-    print "\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event())
+    print("\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event()))
 
 
-    # Vertices 
+    # Vertices
     if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
-        print "Event has no good primary vertex."
+        print("Event has no good primary vertex.")
         continue
     else:
         PV = vertices.product()[0]
-        print "PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f, score: (pt2 of clustered objects) %.1f" % (PV.x(), PV.y(), PV.z(), PV.ndof(),verticesScore.product().get(0))
+        print("PV at x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f, score: (pt2 of clustered objects) %.1f" % (PV.x(), PV.y(), PV.z(), PV.ndof(),verticesScore.product().get(0)))
 
     # # Muons
-    # for i,mu in enumerate(muons.product()): 
+    # for i,mu in enumerate(muons.product()):
     #     if mu.pt() < 5 or not mu.isLooseMuon(): continue
     #     print "muon %2d: pt %4.1f, dz(PV) %+5.3f, POG loose id %d, tight id %d." % (
     #         i, mu.pt(), mu.muonBestTrack().dz(PV.position()), mu.isLooseMuon(), mu.isTightMuon(PV))
@@ -82,31 +82,31 @@ for iev,event in enumerate(events):
     # for i,tau in enumerate(taus.product()):
     #     if tau.pt() < 20: continue
     #     print "tau  %2d: pt %4.1f, dxy signif %.1f, ID(byMediumCombinedIsolationDeltaBetaCorr3Hits) %.1f, lead candidate pt %.1f, pdgId %d " % (
-    #                 i, tau.pt(), tau.dxy_Sig(), tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"), tau.leadCand().pt(), tau.leadCand().pdgId()) 
+    #                 i, tau.pt(), tau.dxy_Sig(), tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"), tau.leadCand().pt(), tau.leadCand().pdgId())
 
     # Jets (standard AK4)
     for i,j in enumerate(jets.product()):
         if j.pt() < 20: continue
-        print "jet %3d: pt %5.1f (raw pt %5.1f, matched-calojet pt %5.1f), eta %+4.2f, btag run1(CSV) ) %.3f, run2(pfCSVIVFV2) %.3f, pileup mva disc %+.2f" % (
-            i, j.pt(), j.pt()*j.jecFactor('Uncorrected'), j.userFloat("caloJetMap:pt"), j.eta(), max(0,j.bDiscriminator("combinedSecondaryVertexBJetTags")), max(0,j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")), j.userFloat("pileupJetId:fullDiscriminant"))
+        print("jet %3d: pt %5.1f (raw pt %5.1f, matched-calojet pt %5.1f), eta %+4.2f, btag run1(CSV) ) %.3f, run2(pfCSVIVFV2) %.3f, pileup mva disc %+.2f" % (
+            i, j.pt(), j.pt()*j.jecFactor('Uncorrected'), j.userFloat("caloJetMap:pt"), j.eta(), max(0,j.bDiscriminator("combinedSecondaryVertexBJetTags")), max(0,j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")), j.userFloat("pileupJetId:fullDiscriminant")))
         # if i == 0: # for the first jet, let's print the leading constituents
         #     constituents = [ j.daughter(i2) for i2 in xrange(j.numberOfDaughters()) ]
         #     constituents.sort(key = lambda c:c.pt(), reverse=True)
         #     for i2, cand in enumerate(constituents):
-        #         if i2 > 4: 
+        #         if i2 > 4:
         #                 print "         ....."
         #                 break
-        #         print "         constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d" % (i2,cand.pt(),cand.dz(PV.position()),cand.pdgId()) 
+        #         print "         constituent %3d: pt %6.2f, dz(pv) %+.3f, pdgId %+3d" % (i2,cand.pt(),cand.dz(PV.position()),cand.pdgId())
 
     # pfcands
     for i,j in enumerate(pfcands.product()):
         if j.pt() < 0: continue
-        print "pfcands %3d: pt %5.1f eta %5.2f pdgId %5d %5.3f %5.3f hcalfrac(valuemap) %4d %5.3f %4d %5d" % ( i, j.pt(), j.eta(), j.pdgId(), j.rawCaloFraction(), j.hcalFraction(),  
+        print("pfcands %3d: pt %5.1f eta %5.2f pdgId %5d %5.3f %5.3f hcalfrac(valuemap) %4d %5.3f %4d %5d" % ( i, j.pt(), j.eta(), j.pdgId(), j.rawCaloFraction(), j.hcalFraction(),
                                                                                                                ##pfcandPtScore.product().get(i),
                                                                                       hcalDepthScore.product().get(i).fractions().size(),
                                                                                       hcalDepthScore.product().get(i).fraction(0),
                                                                                       hcalDepthScore.product().get(i).fractionsI().size(),
-                                                                                      hcalDepthScore.product().get(i).fractionI(0))
+                                                                                      hcalDepthScore.product().get(i).fractionI(0)))
 
     # Fat AK8 Jets
     # for i,j in enumerate(fatjets.product()):
@@ -130,12 +130,12 @@ for iev,event in enumerate(events):
     #                 constituents.append( cand2 )
     #     constituents.sort(key = lambda c:c.pt(), reverse=True)
     #     for i2, cand in enumerate(constituents):
-    #         if i2 > 4: 
+    #         if i2 > 4:
     #                     print "         ....."
     #                     break
-    #         print "         constituent %3d: pt %6.2f, pdgId %+3d, #dau %+3d" % (i2,cand.pt(),cand.pdgId(), cand.numberOfDaughters()) 
-                    
-    #     wSubjets = j.subjets('SoftDrop')        
+    #         print "         constituent %3d: pt %6.2f, pdgId %+3d, #dau %+3d" % (i2,cand.pt(),cand.pdgId(), cand.numberOfDaughters())
+
+    #     wSubjets = j.subjets('SoftDrop')
     #     for iw,wsub in enumerate( wSubjets ) :
     #         print "   w subjet %3d: pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f " % (
     #             iw, wsub.pt(), wsub.pt()*wsub.jecFactor('Uncorrected'), wsub.eta(), wsub.mass()
@@ -145,5 +145,3 @@ for iev,event in enumerate(events):
     #         print "   t subjet %3d: pt %5.1f (raw pt %5.1f), eta %+4.2f, mass %5.1f " % (
     #             it, tsub.pt(), tsub.pt()*tsub.jecFactor('Uncorrected'), tsub.eta(), tsub.mass()
     #             )
-
-

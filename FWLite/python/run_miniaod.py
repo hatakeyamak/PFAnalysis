@@ -44,45 +44,45 @@ for iev,event in enumerate(events):
     event.getByLabel(vertexLabel, vertices)
     event.getByLabel(vertexLabel, verticesScore)
     event.getByLabel(pfcandLabel,pfcands)
-    print "\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event())
+    print("\nEvent %d: run %6d, lumi %4d, event %12d" % (iev,event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(),event.eventAuxiliary().event()))
 
     # Vertices 
     if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
-        print "Event has no good primary vertex."
+        print("Event has no good primary vertex.")
         continue
     else:
         PV = vertices.product()[0]
-        print "PV at x,y,z = %+15.13f, %+15.13f, %+16.13f, ndof: %.1f, score: (pt2 of clustered objects) %.11f" % (PV.x(), PV.y(), PV.z(), PV.ndof(),verticesScore.product().get(0))
+        print("PV at x,y,z = %+15.13f, %+15.13f, %+16.13f, ndof: %.1f, score: (pt2 of clustered objects) %.11f" % (PV.x(), PV.y(), PV.z(), PV.ndof(),verticesScore.product().get(0)))
 
     # Muons
     for i,mu in enumerate(muons.product()): 
         if mu.pt() < 5 or not mu.isLooseMuon(): continue
-        print "muon %2d: pt %4.1f, dz(PV) %+5.3f, POG loose id %d, tight id %d." % (
-            i, mu.pt(), mu.muonBestTrack().dz(PV.position()), mu.isLooseMuon(), mu.isTightMuon(PV))
+        print("muon %2d: pt %4.1f, dz(PV) %+5.3f, POG loose id %d, tight id %d." % (
+            i, mu.pt(), mu.muonBestTrack().dz(PV.position()), mu.isLooseMuon(), mu.isTightMuon(PV)))
 
     # Electrons
     for i,el in enumerate(electrons.product()):
         if el.pt() < 5: continue
-        print "elec %2d: pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes), lost hits %d, pass conv veto %d" % (
-                    i, el.pt(), el.superCluster().eta(), el.sigmaIetaIeta(), el.full5x5_sigmaIetaIeta(), el.gsfTrack().hitPattern().numberOfLostHits(ROOT.reco.HitPattern.MISSING_INNER_HITS), el.passConversionVeto())
+        print("elec %2d: pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes), lost hits %d, pass conv veto %d" % (
+                    i, el.pt(), el.superCluster().eta(), el.sigmaIetaIeta(), el.full5x5_sigmaIetaIeta(), el.gsfTrack().hitPattern().numberOfLostHits(ROOT.reco.HitPattern.MISSING_INNER_HITS), el.passConversionVeto()))
 
     # Photon
     for i,pho in enumerate(photons.product()):
         if pho.pt() < 20 or pho.chargedHadronIso()/pho.pt() > 0.3: continue
-        print "phot %2d: pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes)" % (
-                    i, pho.pt(), pho.superCluster().eta(), pho.sigmaIetaIeta(), pho.full5x5_sigmaIetaIeta())
+        print("phot %2d: pt %4.1f, supercluster eta %+5.3f, sigmaIetaIeta %.3f (%.3f with full5x5 shower shapes)" % (
+                    i, pho.pt(), pho.superCluster().eta(), pho.sigmaIetaIeta(), pho.full5x5_sigmaIetaIeta()))
 
     # Tau
     for i,tau in enumerate(taus.product()):
         if tau.pt() < 20: continue
-        print "tau  %2d: pt %4.1f, dxy signif %.1f, ID(byMediumCombinedIsolationDeltaBetaCorr3Hits) %.1f, lead candidate pt %.1f, pdgId %d " % (
-                    i, tau.pt(), tau.dxy_Sig(), tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"), tau.leadCand().pt(), tau.leadCand().pdgId()) 
+        print("tau  %2d: pt %4.1f, dxy signif %.1f, ID(byMediumCombinedIsolationDeltaBetaCorr3Hits) %.1f, lead candidate pt %.1f, pdgId %d " % (
+                    i, tau.pt(), tau.dxy_Sig(), tau.tauID("byMediumCombinedIsolationDeltaBetaCorr3Hits"), tau.leadCand().pt(), tau.leadCand().pdgId()))
 
     # Jets (standard AK4)
     for i,j in enumerate(jets.product()):
         if j.pt() < 20: continue
-        print "jet %3d: pt %5.1f (raw pt %5.1f, matched-calojet pt %5.1f), eta %+4.2f, btag run1(CSV) ) %.3f, run2(pfCSVIVFV2) %.3f, pileup mva disc %+.2f" % (
-            i, j.pt(), j.pt()*j.jecFactor('Uncorrected'), j.userFloat("caloJetMap:pt"), j.eta(), max(0,j.bDiscriminator("combinedSecondaryVertexBJetTags")), max(0,j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")), j.userFloat("pileupJetId:fullDiscriminant"))
+        print("jet %3d: pt %5.1f (raw pt %5.1f, matched-calojet pt %5.1f), eta %+4.2f, btag run1(CSV) ) %.3f, run2(pfCSVIVFV2) %.3f, pileup mva disc %+.2f" % (
+            i, j.pt(), j.pt()*j.jecFactor('Uncorrected'), j.userFloat("caloJetMap:pt"), j.eta(), max(0,j.bDiscriminator("combinedSecondaryVertexBJetTags")), max(0,j.bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags")), j.userFloat("pileupJetId:fullDiscriminant")))
         # if i == 0: # for the first jet, let's print the leading constituents
         #     constituents = [ j.daughter(i2) for i2 in xrange(j.numberOfDaughters()) ]
         #     constituents.sort(key = lambda c:c.pt(), reverse=True)
@@ -95,7 +95,7 @@ for iev,event in enumerate(events):
     # pfcands
     for i,j in enumerate(pfcands.product()):
         if j.pt() < 0: continue
-        print "pfcands %3d: pt %5.1f eta %5.2f pdgId %5d %5.3f %5.3f " % ( i, j.pt(), j.eta(), j.pdgId(), j.rawCaloFraction(), j.hcalFraction())
+        print("pfcands %3d: pt %5.1f eta %5.2f pdgId %5d %5.3f %5.3f " % ( i, j.pt(), j.eta(), j.pdgId(), j.rawCaloFraction(), j.hcalFraction()))
 
     # Fat AK8 Jets
     # for i,j in enumerate(fatjets.product()):
