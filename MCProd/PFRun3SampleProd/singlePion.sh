@@ -60,7 +60,7 @@ voms-proxy-info
 export prefix=/cms/data
 if [[ -d ${prefix}/${basepath} ]]
 then
-    cp $recofile ${prefix}/${basepath}/$recofile
+    cp --verbose $recofile ${prefix}/${basepath}/$recofile
 else
     eval `scram unsetenv -sh`; gfal-copy $recofile gsiftp://kodiak-se.baylor.edu/${prefix}/${basepath}/$recofile
 fi
