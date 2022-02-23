@@ -102,11 +102,11 @@ for iev,event in enumerate(events):
 
     # AK4 jets
     for i,j in enumerate(jets.product()):  # loop over gen candidates
-        print("Jet: run %6d, event %10d, jet: pt %5.1f eta %5.2f phi %5.2f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), j.pt(), j.eta(), j.phi() ))
+        print("Jet: run %6d, event %10d, jet: pt %10.5f eta %10.5f phi %10.5f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), j.pt(), j.eta(), j.phi() ))
                 
     # AK8 jets
     for i,j in enumerate(fatjets.product()):  # loop over gen candidates
-        print("FatJet: run %6d, event %10d, jet: pt %5.1f eta %5.2f phi %5.2f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), j.pt(), j.eta(), j.phi() ))
+        print("FatJet: run %6d, event %10d, jet: pt %10.5f eta %10.5f phi %10.5f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), j.pt(), j.eta(), j.phi() ))
                 
 # Set up canvas : 
 # w = 1400 
