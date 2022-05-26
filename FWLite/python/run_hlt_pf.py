@@ -39,7 +39,7 @@ genparticles, genparLabel = Handle("std::vector<reco::GenParticle>"), "genPartic
 vertices, vertexLabel = Handle("std::vector<reco::Vertex>"), "hltFastPrimaryVertex"
 pfcands, pfcandLabel = Handle("std::vector<reco::PFCandidate>"), "hltParticleFlow"
 pfclusterhf, pfclusterhfLabel = Handle("std::vector<reco::PFCluster>"), "hltParticleFlowClusterHBHE"
-pfrechithf, pfrechithfLabel = Handle("std::vector<reco::PFRecHit>"), "hltParticleFlowRecHitHBHE"
+pfrechithf, pfrechithfLabel = Handle("std::vector<reco::PFRecHit>"), ("hltParticleFlowRecHitHBHE","Cleaned","reHLT")
 jets, jetLabel = Handle("std::vector<reco::PFJet>"), "hltAK4PFJets"
 fatjets, fatjetLabel = Handle("std::vector<reco::PFJet>"), "hltAK8PFJets"
 
@@ -57,7 +57,7 @@ events = Events('reHLT_HLT.root')
 for iev,event in enumerate(events):
     if iev >= 100: break 
     event.getByLabel(genparLabel, genparticles)
-    event.getByLabel(vertexLabel, vertices)
+    #event.getByLabel(vertexLabel, vertices)
     event.getByLabel(pfcandLabel, pfcands)
     event.getByLabel(pfclusterhfLabel, pfclusterhf)
     event.getByLabel(pfrechithfLabel, pfrechithf)
@@ -66,15 +66,15 @@ for iev,event in enumerate(events):
     #event.getByLabel(pftrackLabel, pftracks)
     print("\nEvent: run %6d, lumi %4d, event %12d" % (event.eventAuxiliary().run(), event.eventAuxiliary().luminosityBlock(), event.eventAuxiliary().event()))
 
-    # Vertices 
-    H_NPV.Fill(len(vertices.product()))
-    print("len(vertices.product())", len(vertices.product()))
-    if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
-        print("Event has no good primary vertex.")
-        #continue
-    else:
-        PV = vertices.product()[0]
-        print("PV: run %6d, event %10d, x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), PV.x(), PV.y(), PV.z(), PV.ndof()))
+    # # Vertices 
+    # H_NPV.Fill(len(vertices.product()))
+    # print("len(vertices.product())", len(vertices.product()))
+    # if len(vertices.product()) == 0 or vertices.product()[0].ndof() < 4:
+    #     print("Event has no good primary vertex.")
+    #     #continue
+    # else:
+    #     PV = vertices.product()[0]
+    #     print("PV: run %6d, event %10d, x,y,z = %+5.3f, %+5.3f, %+6.3f, ndof: %.1f " % (event.eventAuxiliary().run(), event.eventAuxiliary().event(), PV.x(), PV.y(), PV.z(), PV.ndof()))
 
     # Gen particles
     for i,j in enumerate(genparticles.product()):  # loop over gen candidates
