@@ -1,3 +1,17 @@
+'''
+How to run, examples:
+
+python3 run_edm_pfclusters.py 0p01to10 NoPileUp Custom      >& run01.log &
+python3 run_edm_pfclusters.py 0p01to10 FlatPU0to80ZM Custom >& run02.log &
+python3 run_edm_pfclusters.py 10to500 NoPileUp Custom       >& run03.log &
+python3 run_edm_pfclusters.py 10to500 FlatPU0to80ZM Custom  >& run04.log &
+
+python3 run_edm_pfclusters.py 0p01to10 NoPileUp Default      >& run1.log &
+python3 run_edm_pfclusters.py 0p01to10 FlatPU0to80ZM Default >& run2.log &
+python3 run_edm_pfclusters.py 10to500 NoPileUp Default       >& run3.log &
+python3 run_edm_pfclusters.py 10to500 FlatPU0to80ZM Default  >& run4.log &
+'''
+
 import math
 
 # Define a few useful functions
